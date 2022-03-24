@@ -28,7 +28,7 @@ int main(int argc,char* argv[])
     	}
    	 string filename=argv[1];
 	 int thread_count = atoi(argv[2]);
-    	 ifstream file(filename);
+    	 ifstream file(filename.c_str());
 	string input;
 	char c;
 	 file >> noskipws;
@@ -38,7 +38,7 @@ int main(int argc,char* argv[])
 	unsigned int iP, iQ, iD, iE, iN, iTotientN;
 	cout<<"Enter the first prime number: "<<endl;
 	cin>>iP;
-	cout<<"Ente the second prime number: "<<endl;
+	cout<<"Enter the second prime number: "<<endl;
 	cin>>iQ;
 	int n=input.length();
 	unsigned int message[n];
@@ -117,6 +117,7 @@ int main(int argc,char* argv[])
 
 	    cout << encryptedMessage[i] << " ";
 	}
+	cout<<endl;
 
 	cout << "D: " << iD << endl;
 	cout << "N: " << iN << endl;
