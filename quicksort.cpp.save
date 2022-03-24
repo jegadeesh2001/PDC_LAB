@@ -1,0 +1,98 @@
+
+#include <bits/stdc++.h>
+#include <omp.h>
+using namespace std;
+
+
+void swap(int* a, int* b)
+{
+	int t = *a; //Function to swap two numbers
+	*a = *b;
+	*b = t;
+}
+
+
+int partition(int arr[], int start, int end) // Function to partition the array based on pivot
+{
+	
+	int pivot = arr[end];  // We have initialised the pivot as the last element of array
+	int i = (start - 1);
+
+
+	for (int j = start; j <= end - 1; j++) {
+		if (arr[j] < pivot) {                  
+			i++;
+			swap(&arr[i], &arr[j]);
+		}
+	}
+	swap(&arr[i + 1], &arr[end]);
+
+	// Returning the respective index
+	return (i + 1);
+}
+
+
+void quicksort(int arr[], int start, int end)
+{
+	// Declaration
+	int index;
+
+	if (start < end) {
+
+		// Getting the index of pivot
+		// by partitioning
+		index = partition(arr, start, end);
+
+// Parallel sections
+			#pragma omp parallel sections
+	       	{
+			#pragma omp section
+			{
+				// Evaluating the left half
+				quicksort(arr, start, index - 1);
+			}
+			#pragma omp section
+			{
+				// Evaluating the right half
+				quicksort(arr, index + 1, end);
+			}
+		}
+	}
+}
+
+// Driver Code
+int main()
+{
+	// Declaration
+	int n;
+
+	// Taking input the number of
+	// elements we wants
+	cout<<"Enter the size of array: "<<endl;
+	cin>>n;
+
+	// Declaration of array
+	int arr[n];
+
+	cout << "Enter the array: \n";
+
+	// Taking input that array
+	for (int i = 0; i < n; i++) {
+		cout<<"Enter the array element: "<<endl;
+		cin >> arr[i];
+	}
+
+	// Calling quicksort having parallel
+	// code implementation
+	quicksort(arr, 0, n - 1);
+
+	// Printing the sorted array
+	cout << "Array elements after sorting is: "<<endl;
+
+	for (int i = 0; i < n; i++) {
+		cout << arr[i] << " ";
+	}
+
+
+}
+
